@@ -19,7 +19,6 @@ namespace Proiect_Medii_2.Models
 
         [DataType(DataType.Date)]
         public DateTime AnulFabricarii { get; set; }
-        public int? ReprezentantaID { get; set; }
-        public Reprezentanta? Reprezentanta { get; set; } 
+        
     }
 }
