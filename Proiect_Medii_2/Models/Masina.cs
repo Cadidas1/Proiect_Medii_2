@@ -23,5 +23,7 @@ namespace Proiect_Medii_2.Models
 
         public int? ReprezentantaID { get; set; }
         public Reprezentanta? Reprezentanta { get; set; }
+
+        public ICollection<CategorieMasina>? CategoriiMasina { get; set; }
     }
 }

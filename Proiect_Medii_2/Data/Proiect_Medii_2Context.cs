@@ -19,5 +19,7 @@ namespace Proiect_Medii_2.Data
         public DbSet<Proiect_Medii_2.Models.Reprezentanta> Reprezentanta { get; set; }
 
         public DbSet<Proiect_Medii_2.Models.AgentInchirieri> AgentInchirieri { get; set; }
+
+        public DbSet<Proiect_Medii_2.Models.Categorie> Categorie { get; set; }
     }
 }
