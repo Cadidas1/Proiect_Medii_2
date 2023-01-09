@@ -12,13 +12,16 @@ namespace Proiect_Medii_2.Models
 
         [Display(Name = "Modelul Masinii")]
         public string Model { get; set; }
-        public string AgentInchirieri { get; set; }
+        public int? AgentInchirieriID { get; set; }
+        public AgentInchirieri? AgentInchirieri { get; set; }
 
         [Column(TypeName = "decimal(6, 2)")]
         public decimal Pret { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime AnulFabricarii { get; set; }
-        
+
+        public int? ReprezentantaID { get; set; }
+        public Reprezentanta? Reprezentanta { get; set; }
     }
 }

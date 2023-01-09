@@ -41,6 +41,12 @@
                 <span asp-validation-for="Masina.ReprezentantaID" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Masina.AgentInchirieriID" class="control-label">Nume Agent</label>
+                <select asp-for="Masina.AgentInchirieriID" class="form-control" asp-items="ViewBag.AgentInchirieriID">
+                </select>
+                <span asp-validation-for="Masina.ReprezentantaID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

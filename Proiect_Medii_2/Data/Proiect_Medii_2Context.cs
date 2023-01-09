@@ -17,5 +17,7 @@ namespace Proiect_Medii_2.Data
         public DbSet<Proiect_Medii_2.Models.Masina> Masina { get; set; } = default!;
 
         public DbSet<Proiect_Medii_2.Models.Reprezentanta> Reprezentanta { get; set; }
+
+        public DbSet<Proiect_Medii_2.Models.AgentInchirieri> AgentInchirieri { get; set; }
     }
 }
