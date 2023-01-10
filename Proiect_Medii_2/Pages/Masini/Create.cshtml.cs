@@ -11,7 +11,7 @@ using Proiect_Medii_2.Models;
 
 namespace Proiect_Medii_2.Pages.Masini
 {
-    public class CreateModel : PageModel
+    public class CreateModel : CategoriiMasinaPageModel
     {
         private readonly Proiect_Medii_2.Data.Proiect_Medii_2Context _context;
 
@@ -22,28 +22,45 @@ namespace Proiect_Medii_2.Pages.Masini
 
         public IActionResult OnGet()
         {
+            var agentInchirierilist = _context.AgentInchirieri.Select(x => new
+            {
+                x.ID,
+                FullName = x.Prenume + " " + x.Nume
+            });
             ViewData["ReprezentantaID"] = new SelectList(_context.Set<Reprezentanta>(), "ID",
 "NumeReprezentanta");
-
+            ViewData["AgentInchirieriID"] = new SelectList(agentInchirierilist, "ID", "FullName");
+            var masina = new Masina();
+            masina.CategoriiMasina = new List<CategorieMasina>();
+            PopulateCategorieAtribuitaMasinii(_context, masina);
             return Page();
         }
 
         [BindProperty]
         public Masina Masina { get; set; }
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedCategorii)
         {
-          if (!ModelState.IsValid)
+            var newMasina = Masina;
+            if (selectedCategorii != null)
             {
-                return Page();
+                newMasina.CategoriiMasina = new List<CategorieMasina>();
+                foreach (var cat in selectedCategorii)
+                {
+                    var catToAdd = new CategorieMasina
+                    {
+                        CategorieID = int.Parse(cat)
+                    };
+                    newMasina.CategoriiMasina.Add(catToAdd);
+                }
             }
 
-            _context.Masina.Add(Masina);
+            _context.Masina.Add(newMasina);
             await _context.SaveChangesAsync();
-
             return RedirectToPage("./Index");
+
+            PopulateCategorieAtribuitaMasinii(_context, newMasina);
+            return Page();
         }
+
     }
 }
