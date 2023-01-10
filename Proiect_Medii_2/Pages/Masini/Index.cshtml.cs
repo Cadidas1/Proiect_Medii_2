@@ -24,9 +24,20 @@ namespace Proiect_Medii_2.Pages.Masini
         public int MasinaID { get; set; }
         public int CategorieID { get; set; }
 
-        public async Task OnGetAsync(int? id, int? categorieID)
+        public string ModelSort { get; set; }
+        public string AgentInchirieriSort { get; set; }
+
+        public string CurrentFilter { get; set; }
+
+        public async Task OnGetAsync(int? id, int? categorieID, string sortOrder, string
+searchString)
         {
             MasinaD = new DateMasina();
+
+            ModelSort = String.IsNullOrEmpty(sortOrder) ? "model_desc" : "";
+            AgentInchirieriSort = String.IsNullOrEmpty(sortOrder) ? "agentInchirieri_desc" : "";
+
+            CurrentFilter = searchString;
 
             MasinaD.Masini = await _context.Masina
             .Include(b => b.Reprezentanta)
@@ -36,12 +47,34 @@ namespace Proiect_Medii_2.Pages.Masini
             .AsNoTracking()
             .OrderBy(b => b.Model)
             .ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                MasinaD.Masini = MasinaD.Masini.Where(s => s.AgentInchirieri.Nume.Contains(searchString)
+
+               || s.AgentInchirieri.Prenume.Contains(searchString)
+               || s.Model.Contains(searchString));
+            }
+
+
             if (id != null)
             {
                 MasinaID = id.Value;
                 Masina masina = MasinaD.Masini
                 .Where(i => i.ID == id.Value).Single();
                 MasinaD.Categorii = masina.CategoriiMasina.Select(s => s.Categorie);
+
+                switch (sortOrder)
+                {
+                    case "model_desc":
+                        MasinaD.Masini = MasinaD.Masini.OrderByDescending(s =>
+                       s.Model);
+                        break;
+                    case "agentInchirieri_desc":
+                        MasinaD.Masini = MasinaD.Masini.OrderByDescending(s =>
+                       s.AgentInchirieri.FullName);
+                        break;
+                }
             }
         }
 
